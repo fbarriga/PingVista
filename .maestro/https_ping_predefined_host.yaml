@@ -1,0 +1,11 @@
+appId: cl.felipebarriga.pingvista
+---
+- launchApp
+- assertVisible: "Protocol"
+- tapOn: "HTTPS"
+- tapOn: "Google"
+- tapOn: "Start"
+- assertVisible: "seq=1"
+- assertVisible: '.*\/50'
+- tapOn: "Stop"
+- assertNotVisible: '.*\/50'

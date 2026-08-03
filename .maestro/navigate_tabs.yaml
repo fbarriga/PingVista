@@ -1,0 +1,11 @@
+appId: cl.felipebarriga.pingvista
+---
+- launchApp
+- assertVisible: "Protocol"
+- tapOn: "Info"
+- assertVisible: "Network Interfaces"
+- tapOn: "About"
+- assertVisible: "PingVista"
+- assertVisible: "Development was assisted by AI coding tools, including Claude, OpenAI Codex, and OpenCode. All code and design decisions were reviewed and integrated by the developer."
+- tapOn: "Main"
+- assertVisible: "Protocol"

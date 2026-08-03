@@ -1,0 +1,53 @@
+diff --git a/node_modules/react-native-udp/ios/UdpSocketClient.m b/node_modules/react-native-udp/ios/UdpSocketClient.m
+index 82e3288..00a0c70 100644
+--- a/node_modules/react-native-udp/ios/UdpSocketClient.m
++++ b/node_modules/react-native-udp/ios/UdpSocketClient.m
+@@ -102,13 +102,42 @@ NSString *const RCTUDPErrorDomain = @"RCTUDPErrorDomain";
+   
+   BOOL result;
+   if (address) {
+-    struct sockaddr_in ip;
+-    ip.sin_family = AF_INET;
+-    ip.sin_port = htons(_port);
+-    inet_pton(AF_INET, [address cStringUsingEncoding:NSASCIIStringEncoding], &ip.sin_addr);
++    const char *addressCString = [address cStringUsingEncoding:NSASCIIStringEncoding];
++    // PingVista patch: the address string decides the family (":" only ever
++    // appears in IPv6 literals). The original code always built an IPv4
++    // sockaddr_in here, so any IPv6 address (e.g. "::") failed inet_pton
++    // silently (return value unchecked) and bound using uninitialized bytes.
++    if ([address containsString:@":"]) {
++      struct sockaddr_in6 ip6;
++      memset(&ip6, 0, sizeof(ip6));
++      ip6.sin6_len = sizeof(ip6);
++      ip6.sin6_family = AF_INET6;
++      ip6.sin6_port = htons(_port);
++      if (inet_pton(AF_INET6, addressCString, &ip6.sin6_addr) != 1) {
++        if (error) {
++          *error = [self badInvocationError:@"invalid IPv6 address"];
++        }
++        return false;
++      }
++
++      NSData * hostAndPort = [NSData dataWithBytes:&ip6 length:sizeof(ip6)];
++      result = [_udpSocket bindToAddress:hostAndPort error:error];
++    } else {
++      struct sockaddr_in ip;
++      memset(&ip, 0, sizeof(ip));
++      ip.sin_len = sizeof(ip);
++      ip.sin_family = AF_INET;
++      ip.sin_port = htons(_port);
++      if (inet_pton(AF_INET, addressCString, &ip.sin_addr) != 1) {
++        if (error) {
++          *error = [self badInvocationError:@"invalid IPv4 address"];
++        }
++        return false;
++      }
+ 
+-    NSData * hostAndPort = [NSData dataWithBytes:&ip length:sizeof(ip)];
+-    result = [_udpSocket bindToAddress:hostAndPort error:error];
++      NSData * hostAndPort = [NSData dataWithBytes:&ip length:sizeof(ip)];
++      result = [_udpSocket bindToAddress:hostAndPort error:error];
++    }
+   }
+   else {
+     result = [_udpSocket bindToPort:_port error:error];

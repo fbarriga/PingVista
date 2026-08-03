@@ -1,0 +1,7 @@
+appId: cl.felipebarriga.pingvista
+---
+- launchApp
+- assertVisible: "Protocol"
+- tapOn: "TCP"
+- assertVisible: "Host"
+- assertVisible: "Port"

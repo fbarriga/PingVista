@@ -1,0 +1,12 @@
+appId: cl.felipebarriga.pingvista
+---
+- launchApp
+- assertVisible: "Protocol"
+- tapOn: "HTTPS"
+- tapOn: "https://connectivitycheck.gstatic.com/generate_204"
+- eraseText
+- inputText: "https://example.com"
+- assertVisible: "https://example.com"
+- tapOn: "Start"
+- assertVisible: "seq=1"
+- tapOn: "Stop"

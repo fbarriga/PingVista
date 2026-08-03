@@ -1,0 +1,14 @@
+appId: cl.felipebarriga.pingvista
+---
+- launchApp
+- tapOn: "Details"
+- assertVisible: "Completed"
+- assertVisible: "Cancelled"
+- assertVisible: "Lost"
+- assertVisible: "Loss %"
+- assertVisible: "—"
+- tapOn: "HTTPS"
+- tapOn: "Details"
+- assertVisible: "Failed"
+- assertVisible: "Failure %"
+- assertNotVisible: "Loss %"

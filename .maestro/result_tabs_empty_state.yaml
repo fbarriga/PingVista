@@ -1,0 +1,14 @@
+appId: cl.felipebarriga.pingvista
+---
+# No result tab may render blank before the first run. Each tab's empty text is
+# worded differently on purpose: the tabs are paged and a neighbour stays in the
+# hierarchy, so a shared string would not prove which tab was actually drawn.
+- launchApp
+- assertVisible: "No pings yet. Press Start above."
+- tapOn: "Histogram"
+- assertVisible: "No pings yet. The histogram appears after the first run."
+- tapOn: "Details"
+- assertVisible: "Completed"
+- assertVisible: "—"
+- tapOn: "Graph"
+- assertVisible: "No pings yet. The graph appears after the first run."

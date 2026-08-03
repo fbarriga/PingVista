@@ -1,0 +1,8 @@
+appId: cl.felipebarriga.pingvista
+---
+- launchApp
+- tapOn: "Info"
+- assertVisible: "External IP"
+- assertVisible:
+    id: "external-ip-value"
+    text: ".*((\\d{1,3}\\.){3}\\d{1,3}|[0-9A-Fa-f:]+:[0-9A-Fa-f:]+).*"

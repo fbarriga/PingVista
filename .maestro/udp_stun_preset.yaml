@@ -1,0 +1,10 @@
+appId: cl.felipebarriga.pingvista
+---
+- launchApp
+- assertVisible: "Protocol"
+- tapOn: "UDP"
+- assertVisible: "Host"
+- assertVisible: "Port"
+- tapOn: "Cloudflare STUN"
+- assertVisible: "stun.cloudflare.com"
+- assertVisible: "3478"
