@@ -50,6 +50,8 @@ index.ts                 entry point, registers the root component
 App.tsx                  root component, navigation setup
 src/
   constants.ts           predefined hosts per protocol, defaults (packet size 56, TTL 60)
+  analytics/
+    analytics.ts          Firebase Analytics event logging (best-effort, never throws)
   screens/
     MainScreen.tsx       ping controls + Pings/Histogram/Details/Graph top tabs
     InfoScreen.tsx       network interfaces + external IP

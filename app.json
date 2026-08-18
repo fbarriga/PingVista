@@ -2,7 +2,7 @@
   "expo": {
     "name": "PingVista",
     "slug": "pingvista",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,18 +15,25 @@
           }
         }
       ],
-      "./plugins/withReleaseSigning.js"
+      "./plugins/withReleaseSigning.js",
+      "@react-native-firebase/app",
+      "@react-native-firebase/analytics"
     ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "cl.felipebarriga.pingvista",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "NSLocalNetworkUsageDescription": "PingVista uses the local network to measure latency to your router and to other hosts you choose."
       }
     },
     "android": {
       "package": "cl.felipebarriga.pingvista",
-      "permissions": ["android.permission.WAKE_LOCK", "android.permission.CHANGE_WIFI_STATE"],
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "android.permission.WAKE_LOCK",
+        "android.permission.CHANGE_WIFI_STATE"
+      ],
       "blockedPermissions": [
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.SYSTEM_ALERT_WINDOW",

@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, LayoutChangeEvent, Platform, StyleSheet, Text, View } from 'react-native';
 
 import PingNative, { type AddressFamily, type DefaultGateway } from '../../modules/ping-native';
+import { logTestComplete, logTestStart, type TestRunSettings } from '../analytics/analytics';
 import {
   DEFAULT_COUNT,
   DEFAULT_INTERVAL_MS,
@@ -36,6 +37,7 @@ import { pingIcmp } from '../ping/protocols/icmp';
 import { resolveHostWithTimeout } from '../ping/protocols/resolveHost';
 import { pingTcp } from '../ping/protocols/tcp';
 import { pingUdp } from '../ping/protocols/udpStun';
+import { summarize } from '../ping/stats';
 import { type PreparedRun, usePingRunner } from '../ping/usePingRunner';
 import DetailsTab from './main/DetailsTab';
 import GraphTab from './main/GraphTab';
@@ -179,6 +181,21 @@ export default function MainScreen() {
     protocol === 'icmp'
   );
 
+  // Settings for the run analytics events, captured at Start (before results
+  // exist) so the event logged at completion reflects what was actually run,
+  // not whatever the form happens to show by the time the run finishes.
+  const runSettingsRef = useRef<TestRunSettings | null>(null);
+  const stoppedByUserRef = useRef(false);
+  const wasRunningRef = useRef(false);
+  useEffect(() => {
+    if (wasRunningRef.current && !isRunning && runSettingsRef.current) {
+      logTestComplete(runSettingsRef.current, summarize(results), stoppedByUserRef.current);
+      runSettingsRef.current = null;
+      stoppedByUserRef.current = false;
+    }
+    wasRunningRef.current = isRunning;
+  }, [isRunning, results]);
+
   const { gateway, defaultGateways, markRunStarting, setRouterSelected } = useDefaultGateways({
     protocol,
     family,
@@ -268,7 +285,24 @@ export default function MainScreen() {
 
   const handleStart = () => {
     markRunStarting();
+    const settings: TestRunSettings = {
+      protocol,
+      port: protocol === 'tcp' ? tcpPort : protocol === 'udp' ? udpPort : undefined,
+      family: protocol === 'https' ? undefined : family,
+      packetSize: protocol === 'icmp' ? numericPacketSize : undefined,
+      ttl: protocol === 'icmp' ? numericTtl : undefined,
+      intervalMs: numericIntervalMs,
+      count: numericCount,
+    };
+    runSettingsRef.current = settings;
+    stoppedByUserRef.current = false;
+    logTestStart(settings);
     void start(numericCount, numericIntervalMs);
+  };
+
+  const handleStop = () => {
+    stoppedByUserRef.current = true;
+    stop();
   };
 
   const httpsHostIsInvalid = protocol === 'https' && !isHttpsUrl(host);
@@ -345,7 +379,7 @@ export default function MainScreen() {
         onRouterKeepAliveChange={setRouterKeepAliveEnabled}
         onPresetChange={handlePresetChange}
         onStart={handleStart}
-        onStop={stop}
+        onStop={handleStop}
       />
 
       <View style={styles.results}>

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name           = 'PingNative'
-  s.version        = '1.0.0'
+  s.version        = '1.1.0'
   s.summary        = 'Native ICMP ping and network interface info for PingVista'
   s.description    = 'Unprivileged ICMP echo, interface listing, and DNS resolution used by PingVista.'
   s.author         = 'Felipe Barriga Richards'

@@ -1,5 +1,11 @@
 # Release notes
 
+## Version 1.1.0
+
+```text
+• Added analytics to help us understand how PingVista is used and improve it over time
+```
+
 ## Version 1.0.0
 
 ```text

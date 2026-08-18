@@ -47,6 +47,12 @@ Requires Xcode (iOS) or Android Studio + an emulator. The app uses a custom nati
 module for ICMP, so it cannot run in Expo Go — use the dev client builds above.
 Android 10 (API level 29) or newer is required.
 
+The app links Firebase Analytics on both platforms, so `expo prebuild` (run
+implicitly by `expo run:ios` / `expo run:android`) needs Firebase config files
+at the repo root before it will succeed: `google-services.json` for Android
+and `GoogleService-Info.plist` for iOS, both downloaded from the Firebase
+console for this app. Neither file is committed (see `.gitignore`).
+
 ## Creating a release
 
 Before tagging a release, bump the version in `app.json` (`expo.version`),
@@ -69,7 +75,7 @@ git tag v1.2.0 && git push origin v1.2.0
 ## Android release builds (CI)
 
 `.github/workflows/android-release.yml` builds a signed `.aab` on a `v*.*.*` tag push
-or manual dispatch. It needs 4 repository secrets, set under
+or manual dispatch. It needs 5 repository secrets, set under
 **Settings → Secrets and variables → Actions → Secrets**:
 
 | Secret | Value |
@@ -78,11 +84,18 @@ or manual dispatch. It needs 4 repository secrets, set under
 | `ANDROID_KEYSTORE_PASSWORD` | Keystore password |
 | `ANDROID_KEY_ALIAS` | Key alias inside the keystore |
 | `ANDROID_KEY_PASSWORD` | Password for that key alias |
+| `GOOGLE_SERVICES_JSON_BASE64` | Android `google-services.json` from the Firebase console, base64-encoded |
 
 To encode the keystore file:
 
 ```bash
 base64 -i pingvista-upload.jks
+```
+
+To encode `google-services.json`:
+
+```bash
+base64 -i google-services.json
 ```
 
 ## AI-assisted development
