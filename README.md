@@ -75,7 +75,8 @@ git tag v1.2.0 && git push origin v1.2.0
 ## Android release builds (CI)
 
 `.github/workflows/android-release.yml` builds a signed `.aab` on a `v*.*.*` tag push
-or manual dispatch. It needs 5 repository secrets, set under
+or manual dispatch, with R8 code minification and unused-resource shrinking enabled.
+It needs 5 repository secrets, set under
 **Settings → Secrets and variables → Actions → Secrets**:
 
 | Secret | Value |
