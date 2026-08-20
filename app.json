@@ -18,6 +18,7 @@
         }
       ],
       "./plugins/withReleaseSigning.js",
+      "./plugins/withR8Optimizations.js",
       "@react-native-firebase/app",
       "@react-native-firebase/analytics"
     ],

@@ -77,6 +77,10 @@ modules/
 plugins/
   withReleaseSigning.js  config plugin: wires the Android release signingConfig into
                          generated android/app/build.gradle from Gradle properties
+  withR8Optimizations.js config plugin: enables R8 optimized shrinking for Android
+                         releases (optimized default proguard file, optimized resource
+                         shrinking, and removal of proguard rules already covered by
+                         react-android's bundled consumer rules)
 .maestro/                Maestro UI test flows
 .github/workflows/       CI: android-release.yml builds a signed Play-ready .aab
 assets/                  app icon and Android adaptive-icon layers
