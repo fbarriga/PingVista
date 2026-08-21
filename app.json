@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "cl.felipebarriga.pingvista",
-      "buildNumber": "3",
+      "buildNumber": "4",
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "NSLocalNetworkUsageDescription": "PingVista uses the local network to measure latency to your router and to other hosts you choose."
@@ -33,7 +33,7 @@
     },
     "android": {
       "package": "cl.felipebarriga.pingvista",
-      "versionCode": 3,
+      "versionCode": 4,
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "android.permission.WAKE_LOCK",
