@@ -59,8 +59,10 @@ Before tagging a release, bump the version in `app.json` (`expo.version`),
 `package.json`, `modules/ping-native/android/build.gradle` (`version` and
 `versionName`), and `modules/ping-native/ios/PingNative.podspec`
 (`s.version`), and add a new `## Version X.Y.Z` heading to
-`docs/app-store/release-notes.md`. Then check they all agree with the tag
-you're about to push:
+`docs/app-store/release-notes.md`. Also bump `app.json`'s
+`android.versionCode` and `ios.buildNumber` — both stores reject an upload
+whose value isn't strictly greater than the previous release's. Then check
+they all agree with the tag you're about to push:
 
 ```bash
 ./scripts/check-release-version.sh 1.2.0
