@@ -3,6 +3,19 @@
 This is a small React Native (Expo) app that measures pings. It will stay small.
 Read `README.md` for what the app does.
 
+## Request scope
+
+- Do not create or modify files when the user is only asking for an explanation,
+  diagnosis, review, or information (for example, "why is this happening?").
+- Only make changes when the user explicitly asks for an action, such as "fix this"
+  or "make this change." For diagnostic requests, explain the cause and proposed fix
+  without applying it.
+
+## Commit messages
+
+- Before writing a commit message, inspect the repository's existing commit messages
+  and follow their wording and structure where practical.
+
 ## Code style — the most important section
 
 - Write plain, readable TypeScript. A human should understand every file on first read.
