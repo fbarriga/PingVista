@@ -13,8 +13,10 @@ Read `README.md` for what the app does.
 - Keep files short and focused: one screen per file, one ping protocol per file.
 - Name things after what they are: `pingHttps`, `getNetworkInterfaces`, `median`.
 - Comments only where the code cannot explain itself (e.g. STUN byte layout, socket options).
-- Keep `README.md`, `AGENTS.md`, and test flows synchronized with behavior and layout changes.
-  If you discover a discrepancy while working, update the affected documentation in the same change.
+- Keep `README.md`, `AGENTS.md`, and test flows synchronized with behavior and layout changes —
+  including tooling changes (`scripts/`, `app.json`, CI workflows), not just app code. Before
+  committing, grep `README.md` and `AGENTS.md` for the names of the files, commands, and
+  directories you touched and update any stale description in the same change.
 - Always use braces for control-flow statement bodies (`if`, `else`, `for`, `while`, etc.), even when the
   body contains only a single statement. Never use brace-less single-line bodies.
   
@@ -81,6 +83,10 @@ plugins/
                          releases (optimized default proguard file, optimized resource
                          shrinking, and removal of proguard rules already covered by
                          react-android's bundled consumer rules)
+scripts/
+  check-release-version.sh  pre-tag check: versions agree across app.json / package.json /
+                            ping-native / release notes, and android.versionCode /
+                            ios.buildNumber are set and greater than the previous release tag's
 .maestro/                Maestro UI test flows
 .github/workflows/       CI: android-release.yml builds a signed Play-ready .aab
 assets/                  app icon and Android adaptive-icon layers
@@ -100,7 +106,9 @@ npm run lint                # ESLint linting
 npm test                    # Jest unit tests
 maestro test .maestro/      # functional UI tests (app must be installed on a running sim/emulator)
 scripts/check-release-version.sh [X.Y.Z]  # verify app.json / package.json / ping-native build.gradle+
-                                           #   podspec / release-notes.md agree on the version before tagging
+                                           #   podspec / release-notes.md agree on the version, and that
+                                           #   app.json's android.versionCode / ios.buildNumber are set and
+                                           #   greater than the previous release tag's, before tagging
 ```
 
 Android builds require API level 29 or newer.
